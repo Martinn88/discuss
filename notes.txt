@@ -1,0 +1,17 @@
+Interaktywna powłoka z serwerem phoenix
+iex -S mix phx.server
+
+Uruchomienie serwera bez powłoki
+mix phx.server
+
+Generowanie pliku migracji
+mix ecto.gen.migration add_topics
+
+Uruchamianie migracji
+mix ecto.migrate
+
+Tworzenie nowego schematu
+mix phx.gen.json Blog Topic topics title:string 
+
+Wyświetlenie listy "Path Helpers"
+mix phx.routes
