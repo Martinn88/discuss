@@ -18,7 +18,7 @@ defmodule DiscussWeb.TopicController do
 
   def create(conn, %{"topic" => topic_params}) do
     case Blog.create_topic(topic_params) do
-      {:ok, %Topic{} = topic} ->
+      {:ok, _topic} ->
         conn
         |> put_flash(:info, "Topic Created")
         |> redirect(to: Routes.topic_path(conn, :index))
@@ -26,24 +26,37 @@ defmodule DiscussWeb.TopicController do
     end
   end
  
-  def show(conn, %{"id" => id}) do
+  def edit(conn, %{"id" => id}) do
     topic = Blog.get_topic!(id)
-    render(conn, "show.json", topic: topic)
+    changeset = Topic.changeset(topic)
+    
+    render(conn, "edit.html", changeset: changeset, topic: topic)
   end
 
   def update(conn, %{"id" => id, "topic" => topic_params}) do
     topic = Blog.get_topic!(id)
 
-    with {:ok, %Topic{} = topic} <- Blog.update_topic(topic, topic_params) do
-      render(conn, "show.json", topic: topic)
+    case Blog.update_topic(topic, topic_params) do
+      {:ok, _topic} ->
+        conn
+        |> put_flash(:info, "Topic Updated")
+        |> redirect(to: Routes.topic_path(conn, :index))
+      {:error, changeset} -> render(conn, "edit.html", changeset: changeset, topic: topic)
     end
   end
 
   def delete(conn, %{"id" => id}) do
     topic = Blog.get_topic!(id)
 
-    with {:ok, %Topic{}} <- Blog.delete_topic(topic) do
-      send_resp(conn, :no_content, "")
+    case Blog.delete_topic(topic) do
+      {:ok, _topic} ->
+        conn
+        |> put_flash(:info, "Topic Deleted")
+        |> redirect(to: Routes.topic_path(conn, :index))
+      {:error, _changeset} ->
+        conn
+        |> put_flash(:error, "Topic Not Deleted")
+        |> redirect(to: Routes.topic_path(conn, :index))
     end
   end
 end
