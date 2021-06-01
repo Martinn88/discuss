@@ -30,7 +30,8 @@
   display: none;
 }
 .invalid-feedback {
-  color: #a94442;
+  color: red;
+  text-transform: capitalize;
   display: block;
   margin: -1rem 0 2rem;
 }
