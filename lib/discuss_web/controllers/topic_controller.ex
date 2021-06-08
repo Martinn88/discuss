@@ -13,6 +13,11 @@ defmodule DiscussWeb.TopicController do
     topics = Blog.list_topics()
     render(conn, "index.html", topics: topics)
   end
+  
+  def show(conn, %{"id" => id}) do
+    topic = Blog.get_topic!(id)
+    render(conn, "show.html", topic: topic)
+  end
 
   def new(conn, _params) do
     changeset = Topic.changeset(%Topic{}, %{})

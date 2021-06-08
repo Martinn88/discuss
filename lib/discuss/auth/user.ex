@@ -2,11 +2,14 @@ defmodule Discuss.Auth.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @derive {Jason.Encoder, only: [:email]}
+
   schema "users" do
     field :email, :string
     field :provider, :string
     field :token, :string
     has_many :topics, Discuss.Blog.Topic
+    has_many :comments, Discuss.Blog.Comment
     timestamps()
   end
 

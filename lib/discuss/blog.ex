@@ -7,6 +7,7 @@ defmodule Discuss.Blog do
   alias Discuss.Repo
 
   alias Discuss.Blog.Topic
+  alias Discuss.Blog.Comment
 
   @doc """
   Returns the list of topics.
@@ -112,5 +113,54 @@ defmodule Discuss.Blog do
   """
   def change_topic(%Topic{} = topic, attrs \\ %{}) do
     Topic.changeset(topic, attrs)
+  end
+
+  @doc """
+  Gets a single topic with comments.
+
+  ## Examples
+
+      iex> get_topic_and_comments(123)
+      %Topic{}
+
+  """
+  def get_topic_and_comments(id) do
+    Topic
+    |> Repo.get(id)
+    |> Repo.preload(comments: [:user])
+  end
+
+  @doc """
+  Creates a comment.
+
+  ## Examples
+
+      iex> create_comment(topic, user_id, %{field: value})
+      {:ok, %Comment{}}
+
+      iex> create_comment(topic, user_id, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_comment(topic, user_id, attrs \\ %{}) do
+    topic
+    |> Ecto.build_assoc(:comments, user_id: user_id)
+    |> Comment.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Gets a single comment.
+
+  ## Examples
+
+      iex> get_comment(123)
+      %Comment{}
+
+  """
+  def get_comment(comment_id) do
+    Comment
+    |>Repo.get(comment_id)
+    |>Repo.preload(:user)
   end
 end

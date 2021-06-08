@@ -11,9 +11,12 @@ mix ecto.gen.migration add_user_id_to_topics
 Uruchamianie migracji
 mix ecto.migrate
 
-Tworzenie nowego schematu
+Tworzenie controller, views, context
 mix phx.gen.json Blog Topic topics title:string 
 mix phx.gen.json Auth User users email:string provider:string token:string
+
+Tworzenie migracji i schematu
+mix phx.gen.schema Blog.Comment comments content:string user_id:references:users topic_id:references:topics
 
 Wyświetlenie listy "Path Helpers"
 mix phx.routes
