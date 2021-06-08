@@ -6,7 +6,7 @@ defmodule Discuss.Auth.User do
     field :email, :string
     field :provider, :string
     field :token, :string
-
+    has_many :topics, Discuss.Blog.Topic
     timestamps()
   end
 

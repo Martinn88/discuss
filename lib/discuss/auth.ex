@@ -37,6 +37,17 @@ defmodule Discuss.Auth do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+    @doc """
+  Gets a single user.
+
+  ## Examples
+
+      iex> get_user(123)
+      %User{}
+
+  """
+  def get_user(id), do: Repo.get(User, id)
+
   @doc """
   Gets a single user by email.
 

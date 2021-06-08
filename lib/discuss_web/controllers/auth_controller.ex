@@ -26,6 +26,12 @@ defmodule DiscussWeb.AuthController do
         end
     end
 
+    def signout(conn, _params) do
+        conn
+        |> configure_session(drop: true)
+        |> redirect(to: Routes.topic_path(conn, :index))
+    end
+    
     defp insert_or_update_user(user_params) do
         case Auth.get_user_by_email(email: user_params.email) do
             nil -> Auth.create_user(user_params)

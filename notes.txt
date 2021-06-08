@@ -6,6 +6,7 @@ mix phx.server
 
 Generowanie pliku migracji
 mix ecto.gen.migration add_topics
+mix ecto.gen.migration add_user_id_to_topics
 
 Uruchamianie migracji
 mix ecto.migrate

@@ -38,19 +38,31 @@ defmodule Discuss.Blog do
   def get_topic!(id), do: Repo.get!(Topic, id)
 
   @doc """
+  Gets a single topic.
+
+  ## Examples
+
+      iex> get_topic(123)
+      %Topic{}
+
+  """
+  def get_topic(id), do: Repo.get(Topic, id)
+
+  @doc """
   Creates a topic.
 
   ## Examples
 
-      iex> create_topic(%{field: value})
+      iex> create_topic(user, %{field: value})
       {:ok, %Topic{}}
 
-      iex> create_topic(%{field: bad_value})
+      iex> create_topic(user, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_topic(attrs \\ %{}) do
-    %Topic{}
+  def create_topic(user, attrs \\ %{}) do
+    user
+    |> Ecto.build_assoc(:topics)
     |> Topic.changeset(attrs)
     |> Repo.insert()
   end
